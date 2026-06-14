@@ -112,6 +112,7 @@ export function SequenceCanvas({
     <section
       id={id}
       ref={section}
+      data-sequence
       style={{
         height: enabled ? `${heightVh}vh` : "100dvh",
         marginTop: enabled && overlapTop ? `-${OVERLAP_VH}vh` : undefined,

@@ -119,15 +119,21 @@ export default function PetalField({
   count = 360,
   reduce = false,
   dpr = 1.5,
+  active = true,
 }: {
   count?: number;
   reduce?: boolean;
   dpr?: number;
+  /** When false the render loop freezes entirely (no RAF) — the perf win off-scene. */
+  active?: boolean;
 }) {
   return (
     <Canvas
+      // freeze the loop when the petals aren't on a frame scene
+      frameloop={active ? "always" : "never"}
       dpr={[1, dpr]}
-      gl={{ antialias: true, powerPreference: "high-performance", alpha: true }}
+      // soft sprites get nothing from MSAA — skip it for a real GPU saving
+      gl={{ antialias: false, powerPreference: "high-performance", alpha: true }}
       camera={{ position: [0, 0, 13], fov: 52 }}
     >
       <Petals count={count} reduce={reduce} />

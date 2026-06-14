@@ -21,7 +21,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("http://localhost:3000"),
+  metadataBase: new URL("https://japan-3d.vercel.app"),
   title: "HANAMI — Chasing the Blossom · A Cinematic Journey Through Spring in Japan",
   description:
     "An immersive scroll experience through Japan's fleeting cherry-blossom spring — from the torii gate to Mt. Fuji, still canals, and quiet gardens.",

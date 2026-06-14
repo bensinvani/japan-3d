@@ -124,6 +124,9 @@ export function useFrameSequence({
 
     const render = () => {
       const rect = section.getBoundingClientRect();
+      // Fully off-screen scenes do no work: the frame is already parked at an edge,
+      // so skip the redraw + overlay callbacks (keeps far sections off the scroll path).
+      if (rect.bottom <= 0 || rect.top >= window.innerHeight) return;
       const scrollableHeight = section.offsetHeight - window.innerHeight;
       const progress = Math.min(1, Math.max(0, -rect.top / scrollableHeight));
       const frameIndex = Math.min(

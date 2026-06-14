@@ -78,7 +78,7 @@ export function CTA() {
         <div className="cta-fade mt-12">
           <MagneticButton
             href="#top"
-            className="group inline-flex items-center gap-3 rounded-full border border-vermilion/60 bg-vermilion px-9 py-4 text-sm font-medium uppercase tracking-[0.2em] text-primary-foreground transition-colors duration-300 hover:bg-vermilion-soft"
+            className="group inline-flex items-center gap-3 rounded-full bg-sakura px-9 py-4 text-sm font-medium uppercase tracking-[0.2em] text-ink shadow-[0_12px_44px_-12px_rgba(245,185,202,0.75)] transition-colors duration-300 hover:bg-sakura-deep"
           >
             Plan the trip
             <span className="transition-transform duration-300 group-hover:translate-x-1">
@@ -88,13 +88,77 @@ export function CTA() {
         </div>
       </div>
 
-      <footer className="cta-fade relative z-10 mt-[18vh] flex w-full max-w-[1600px] flex-col items-center gap-3 border-t border-washi/10 pt-8 text-washi/50 sm:flex-row sm:justify-between">
-        <span className="font-display text-lg text-washi/80">
-          HANAMI <span className="font-jp text-sakura/80">花見</span>
-        </span>
-        <span className="font-mono text-[0.7rem] uppercase tracking-[0.25em]">
-          A cinematic study · Spring 2026
-        </span>
+      <footer className="cta-fade relative z-10 mt-[16vh] w-full max-w-[1100px] border-t border-washi/12 pt-12 text-left">
+        <div className="flex flex-col gap-12 sm:flex-row sm:justify-between">
+          {/* brand + tagline */}
+          <div className="max-w-[34ch]">
+            <div className="flex items-baseline gap-2">
+              <span className="font-display text-xl text-washi">HANAMI</span>
+              <span className="font-jp text-sakura/80">花見</span>
+            </div>
+            <p className="mt-3 text-sm leading-relaxed text-washi/50">
+              A cinematic study of Japan&apos;s fleeting cherry-blossom spring — from
+              the torii&apos;s threshold to the quiet garden.
+            </p>
+          </div>
+
+          {/* anchor columns (use the smart in-page resolver) */}
+          <nav className="flex gap-12 sm:gap-16">
+            <ul className="space-y-2.5">
+              <li className="mb-1 font-mono text-[0.62rem] uppercase tracking-[0.3em] text-sakura/70">
+                Explore
+              </li>
+              {[
+                { href: "#fuji", label: "Journey" },
+                { href: "#gallery", label: "Moments" },
+                { href: "#practice", label: "The Practice" },
+              ].map((l) => (
+                <li key={l.href}>
+                  <a
+                    href={l.href}
+                    className="text-sm text-washi/55 transition-colors duration-300 hover:text-washi"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <ul className="space-y-2.5">
+              <li className="mb-1 font-mono text-[0.62rem] uppercase tracking-[0.3em] text-sakura/70">
+                Begin
+              </li>
+              <li>
+                <a
+                  href="#begin"
+                  className="text-sm text-washi/55 transition-colors duration-300 hover:text-washi"
+                >
+                  Plan the trip
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#top"
+                  className="group inline-flex items-center gap-1.5 text-sm text-washi/55 transition-colors duration-300 hover:text-washi"
+                >
+                  Back to top
+                  <span className="transition-transform duration-300 group-hover:-translate-y-0.5">
+                    ↑
+                  </span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <div className="mt-12 flex flex-col items-center gap-2 border-t border-washi/[0.07] pt-6 text-center sm:flex-row sm:justify-between sm:text-left">
+          <span className="font-mono text-[0.64rem] uppercase tracking-[0.25em] text-washi/40">
+            © 2026 HANAMI · A cinematic study
+          </span>
+          <span className="font-mono text-[0.64rem] uppercase tracking-[0.25em] text-washi/40">
+            <span className="font-jp text-sakura/60">桜</span> · Crafted with sunlight
+            &amp; sakura
+          </span>
+        </div>
       </footer>
     </section>
   );
