@@ -36,10 +36,15 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "HANAMI — Chasing the Blossom",
-    description:
-      "A cinematic descent through Japan's fleeting spring.",
-    images: ["/media/fuji4.jpg"],
+    description: "A cinematic descent through Japan's fleeting spring.",
     type: "website",
+    // og:image is provided by src/app/opengraph-image.tsx (generated card)
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "HANAMI — Chasing the Blossom",
+    description: "A cinematic descent through Japan's fleeting spring.",
+    // twitter:image is provided by src/app/twitter-image.tsx
   },
 };
 
