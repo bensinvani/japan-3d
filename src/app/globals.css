@@ -1,26 +1,166 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ───────────────────────────────────────────────────────────────
+   HANAMI — design tokens (sakura cinematic, always-dark)
+   Palette derived from the reference photography:
+   sumi-ink night · vermilion torii · sakura pink · sunset gold · washi
+   ─────────────────────────────────────────────────────────────── */
+@theme {
+  /* fonts (wired via next/font in layout.tsx) */
+  --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-playfair), ui-serif, Georgia, serif;
+  --font-jp: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho", "YuMincho",
+    "MS Mincho", var(--font-playfair), serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* brand palette → usable as bg-ink / text-sakura / border-vermilion … */
+  --color-ink: #0b090d;
+  --color-ink-2: #141019;
+  --color-ink-3: #1c1622;
+  --color-vermilion: #df4726;
+  --color-vermilion-soft: #ef6a45;
+  --color-sakura: #f5b9ca;
+  --color-sakura-deep: #e98aa6;
+  --color-gold: #f0c463;
+  --color-washi: #f3ecdf;
+
+  /* shadcn semantic tokens, themed to sakura */
+  --color-background: #0b090d;
+  --color-foreground: #ece3d8;
+  --color-card: #141019;
+  --color-card-foreground: #ece3d8;
+  --color-popover: #141019;
+  --color-popover-foreground: #ece3d8;
+  --color-primary: #df4726;
+  --color-primary-foreground: #f7f1e8;
+  --color-secondary: #1c1622;
+  --color-secondary-foreground: #ece3d8;
+  --color-muted: #1c1622;
+  --color-muted-foreground: #b3a79c;
+  --color-accent: #f5b9ca;
+  --color-accent-foreground: #1a121c;
+  --color-destructive: #c23b2b;
+  --color-destructive-foreground: #f7f1e8;
+  --color-border: rgba(243, 236, 223, 0.12);
+  --color-input: rgba(243, 236, 223, 0.16);
+  --color-ring: #df4726;
+
+  /* fluid type scale: 360px → 1440px viewport (clamp interpolation) */
+  --text-eyebrow: clamp(0.7rem, 0.62rem + 0.35vw, 0.92rem);
+  --text-body: clamp(1rem, 0.93rem + 0.3vw, 1.18rem);
+  --text-beat: clamp(1.6rem, 0.85rem + 3.4vw, 4rem);
+  --text-h2: clamp(2.1rem, 1rem + 4.6vw, 5.2rem);
+  --text-display: clamp(3rem, 0.2rem + 11.4vw, 9.75rem);
+
+  --radius: 0.5rem;
+}
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* fluid spacing scale */
+  --space-section: clamp(4rem, 1.8rem + 9.6vw, 10rem);
+  --space-gutter: clamp(1.25rem, 0.5rem + 3.3vw, 3.5rem);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ─────────────────────────── base ─────────────────────────── */
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    background-color: var(--color-ink);
+    color-scheme: dark;
+    /* sakura scrollbar (matches the "KOI" accent text) */
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-sakura) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-sakura);
+    border-radius: 9999px;
+    border: 2px solid var(--color-ink);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-sakura-deep);
+  }
+  body {
+    background-color: var(--color-ink);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: var(--color-sakura);
+    color: #1a121c;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ─────────────────────── atmosphere utilities ─────────────────────── */
+
+/* film grain — animated noise overlay ON TOP of content (kills "flat CSS" look) */
+.grain-overlay {
+  position: fixed;
+  inset: -150%;
+  z-index: 60;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.06;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  animation: grain 0.7s steps(4) infinite;
+  will-change: transform;
+}
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-3%, 2%); }
+  50% { transform: translate(2%, -3%); }
+  75% { transform: translate(-2%, -2%); }
+  100% { transform: translate(3%, 2%); }
+}
+
+/* cinematic edge vignette */
+.vignette::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    120% 95% at 50% 42%,
+    transparent 38%,
+    rgba(7, 5, 9, 0.55) 88%,
+    rgba(7, 5, 9, 0.82) 100%
+  );
+}
+
+/* vertical Japanese typesetting for kanji accents */
+.writing-vertical {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: 0.12em;
+}
+
+/* thin hairline */
+.hairline {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(243, 236, 223, 0.35),
+    transparent
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain-overlay {
+    animation: none;
+  }
 }
