@@ -42,3 +42,5 @@ next-env.d.ts
 
 # Higgsfield source footage (frames are extracted to public/sequences)
 .video-src/
+
+.vercel
